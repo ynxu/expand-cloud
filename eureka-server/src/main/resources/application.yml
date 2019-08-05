@@ -1,0 +1,30 @@
+
+server:
+  port: 8010
+
+spring:
+  application:
+    name: expand-server
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 5
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 5000
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+logging:
+  level:
+    com.netflix:
+      eureka: off
+      discovery: off
+
+

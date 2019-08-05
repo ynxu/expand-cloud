@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: expand-zuul
+
+server:
+  port: 8013
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8010/eureka/
+  instance:
+    hostname: ${spring.application.name}:${server.port}
+zuul:
+  ignored-services: '*' # 过滤所有请求，除了下面routes中声明过的服务
+  routes:
+    comment: #在路由中自定义服务路由名称
+      path: /comment/**
+      serviceId:  service-comment # 微服务name
+      strip-prefix: false
+    test:  #在路由中自定义服务路由名称
+      path: /test/**
+      serviceId: service-test # 微服务name
+      strip-prefix: false
+  prefix: /gateway/api
+  strip-prefix: true  # 对 prefix: /gateway/api 设置的路径进行截取，默认转发会截取掉配置的前缀
